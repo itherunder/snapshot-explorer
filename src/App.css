@@ -1,0 +1,17 @@
+@import '~antd/dist/antd.css';
+
+.App {
+  text-align: center;
+  margin: 5%;
+  background-color: black;
+}
+
+.App-header {
+  background-color: black;
+  font-size: calc(10px + 2vmin);
+}
+
+.App-body {
+  background-color: black;
+  font-size: calc(10px + 2vmin);
+}
