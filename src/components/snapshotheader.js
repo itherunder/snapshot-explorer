@@ -7,22 +7,26 @@ export default function SnapshotHeader() {
   return (
     <div>
       <Row span={24}>
-        <Col span={8}>
-          <a href={url} style={{ fontSize: 40, color: "white" }}>
-            <b>
+        <Col span={10}>
+          {/* <a href={url} style={{ fontSize: 40, color: "white" }}> */}
+          <a href={url} style={{ width: '100%', fontSize: '3vw', color: "black", fontWeight: "bold", textAlign: 'left' }}>
+            <p>
               Project Snapshot☰
               <br/>
               Campaign Explorer
-            </b>
+            </p>
           </a>
         </Col>
-        <Col span={6} offset={10} style={{ textAlign: "right" }}>
-          <Row span={6} style={{ height: '50%', padding: 5 }}>
-            <p style={{ color: "white" }}>Made with ❤️ by Community</p>
-            <a href={link} style={{ width: '100%', fontSize: 15, marginRight: 17, marginTop: -25 }}>@itherunder</a>
+        <Col span={8} offset={6}>
+          <Row span={8} style={{ width: '100%', textAlign: 'right', fontWeight: "bold" }}>
+            <p style={{ width: '100%', fontSize: '1.5vw', fontWeight: "bold" }}>Made with ❤️ by Community</p>
+            <a href={link} style={{ width: '100%', fontSize: '1vw', marginTop: -25 }}>
+              @itherunder
+            </a>
           </Row>
-          <Row span={6} style={{ height: '50%', textAlign: "right" }}>
-            <p style={{ color: "white" }}>Buy me a Coffee</p>
+          <br/>
+          <Row span={8}>
+            <p style={{ width: '100%', color: "black", textAlign: 'right', fontSize: "2vw", fontWeight: "bold" }}>Buy me a Coffee</p>
           </Row>
         </Col>
       </Row>

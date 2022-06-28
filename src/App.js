@@ -7,9 +7,10 @@ function App() {
       <header className="App-header">
         <SnapshotHeader />
       </header>
-      <body className='App-body'>
+      <br/>
+      <div className='App-body'>
         <SnapshotSearch />
-      </body>
+      </div>
     </div>
   );
 }

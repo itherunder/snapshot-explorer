@@ -2,16 +2,21 @@
 
 .App {
   text-align: center;
-  margin: 5%;
-  background-color: black;
+  margin-top: 5%;
+  margin-left: 12%;
+  margin-right: 12%;
+  /* background-color: black; */
 }
 
 .App-header {
-  background-color: black;
+  /* background-color: black; */
   font-size: calc(10px + 2vmin);
+  /* margin: 5%; */
 }
 
 .App-body {
-  background-color: black;
+  /* background-color: black; */
   font-size: calc(10px + 2vmin);
+  text-align: center;
+  /* margin: 5%; */
 }
