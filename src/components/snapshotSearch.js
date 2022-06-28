@@ -6,6 +6,7 @@ import {
   InMemoryCache,
   gql
 } from "@apollo/client";
+import { ListConsumer } from "antd/lib/list";
 
 const { Search } = Input;
 
@@ -89,7 +90,7 @@ export default function SnapshotSearch() {
       var voters = [address];
       var scores = await snapshot.utils.getScores(space, strategies, network, voters);
       console.log(i, space, scores); // 500 error?
-      if (scores[0] > 0) {
+      if (scores?.length > 1) {
         exist[space] = true;
         validProposals.push(proposals[i]);
       }
@@ -101,7 +102,7 @@ export default function SnapshotSearch() {
     setSearchLoading(true);
     var re = new RegExp(/^0x[0-9a-fA-F]{40}$/);
     if (!re.test(value)) {
-      alert("address error!");
+      alert("error: invalid address!");
       setSearchLoading(false);
       return;
     }
@@ -110,8 +111,18 @@ export default function SnapshotSearch() {
   }
 
   const shortText = (str) => {
-    if (str.length <= 100) return str;
-    return str.substr(0, 97) + '...';
+    if (str.length <= 30) return str;
+    return str.substr(0, 27) + '...';
+  }
+
+  const tsToDatetime = (ts) => {
+    var a = new Date(ts * 1000);
+    var year = a.getFullYear();
+    var month = '0' + (a.getMonth() + 1);
+    var date = '0' + a.getDate();
+    var hour = '0' + a.getHours();
+    var min = '0' + a.getMinutes();
+    return year + '-' + month.substr(-2) + '-' + date.substr(-2) + ' ' + hour.substr(-2) + ':' + min.substr(-2);
   }
 
   return (
@@ -129,10 +140,17 @@ export default function SnapshotSearch() {
         // bordered
         dataSource={proposals}
         renderItem={item => (
-          <List.Item>
-            <a href={`https://snapshot.org/#/${item?.space?.id}/proposal/${item?.id}`} target="_blank">
-              {shortText(item?.title)}
-            </a> By {item?.space?.id}
+          <List.Item style={{ fontWeight: "bold", textAlign: "left" }}>
+            <List.Item.Meta
+              title={
+                <div style={{ fontSize: '2vw' }}>
+                  <a href={`https://snapshot.org/#/${item?.space?.id}/proposal/${item?.id}`} target="_blank">
+                    {shortText(item?.title)}
+                  </a> By {item?.space?.id}
+                </div>
+              }
+              description={<p style={{ color: "red" }}>From {tsToDatetime(item?.start)} To {tsToDatetime(item?.end)}</p>}
+            />
           </List.Item>
         )}
         loading={proposalsLoading}
