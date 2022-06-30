@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/snapshot-explorer/static/css/main.f228cad7.css",
-    "main.js": "/snapshot-explorer/static/js/main.126c46d7.js",
+    "main.js": "/snapshot-explorer/static/js/main.4d0448bd.js",
     "static/js/787.757a75fc.chunk.js": "/snapshot-explorer/static/js/787.757a75fc.chunk.js",
     "index.html": "/snapshot-explorer/index.html",
     "main.f228cad7.css.map": "/snapshot-explorer/static/css/main.f228cad7.css.map",
-    "main.126c46d7.js.map": "/snapshot-explorer/static/js/main.126c46d7.js.map",
+    "main.4d0448bd.js.map": "/snapshot-explorer/static/js/main.4d0448bd.js.map",
     "787.757a75fc.chunk.js.map": "/snapshot-explorer/static/js/787.757a75fc.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f228cad7.css",
-    "static/js/main.126c46d7.js"
+    "static/js/main.4d0448bd.js"
   ]
 }
