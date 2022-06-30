@@ -77,28 +77,55 @@ export default function SnapshotSearch() {
   }
 
   const checkScores = async (address) => {
-    var exist = {};
+    var valid = {};
     var validProposals = [];
+    var proposals_dict = {};
     for (let i = 0; i < proposals.length; i++) {
-      var space = proposals[i].space.id;
-      if (space in exist) {
-        validProposals.push(proposals[i]);
-        continue;
+      let space = proposals[i].space.id;
+      if (space in proposals_dict) {
+        proposals_dict[space].push(proposals[i]);
+      } else {
+        proposals_dict[space] = [proposals[i]];
       }
-      var strategies = proposals[i].strategies;
-      var network = proposals[i].network;
+    }
+
+    var getScores = (space, strategies, network, voters) => {
+      return snapshot.utils.getScores(
+        space, strategies, network, voters
+      ).then(scores => {
+        // console.log(space, scores); // 500 error?
+        for (let j = 0; j < scores.length; j++) {
+          if (Object.keys(scores[j]).length > 0) {
+            valid[space] = true;
+            break;
+          }
+        }
+      }).catch(e => {
+        console.log(e);
+      });
+    }
+
+    var jobs = [];
+    var spaces = Object.keys(proposals_dict);
+    for (let i = 0; i < spaces.length; i++) {
+      var space = spaces[i];
+      var proposal = proposals_dict[space][0];
+      var strategies = proposal.strategies;
+      var network = proposal.network;
       var voters = [address];
-      var scores = await snapshot.utils.getScores(space, strategies, network, voters);
-      console.log(i, space, scores); // 500 error?
-      if (scores?.length > 1) {
-        exist[space] = true;
-        validProposals.push(proposals[i]);
-      }
+      jobs.push(getScores(space, strategies, network, voters));
+    }
+    await Promise.all(jobs);
+
+    // console.log('valid: ', valid);
+    for (let space in valid) {
+      validProposals = validProposals.concat(proposals_dict[space]);
     }
     setProposals(validProposals);
   }
 
   const handleSearch = async (value) => {
+    setProposalsLoading(true);
     setSearchLoading(true);
     var re = new RegExp(/^0x[0-9a-fA-F]{40}$/);
     if (!re.test(value)) {
@@ -108,6 +135,7 @@ export default function SnapshotSearch() {
     }
     await checkScores(value);
     setSearchLoading(false);
+    setProposalsLoading(false);
   }
 
   const shortText = (str) => {
@@ -140,6 +168,8 @@ export default function SnapshotSearch() {
         // bordered
         dataSource={proposals}
         renderItem={item => (
+          // TODO: new a component to show list item
+          // TODO: shadow voted proposals, show the scores of users
           <List.Item style={{ fontWeight: "bold", textAlign: "left" }}>
             <List.Item.Meta
               title={
@@ -149,7 +179,7 @@ export default function SnapshotSearch() {
                   </a> By {item?.space?.id}
                 </div>
               }
-              description={<p style={{ color: "red" }}>From {tsToDatetime(item?.start)} To {tsToDatetime(item?.end)}</p>}
+              description={<p style={{ color: "red", fontSize: '1vw' }}>From {tsToDatetime(item?.start)} To {tsToDatetime(item?.end)}</p>}
             />
           </List.Item>
         )}
