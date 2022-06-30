@@ -6,7 +6,6 @@ import {
   InMemoryCache,
   gql
 } from "@apollo/client";
-import { ListConsumer } from "antd/lib/list";
 
 const { Search } = Input;
 
